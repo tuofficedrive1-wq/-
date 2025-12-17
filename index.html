@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماہانہ کارکردگی رپورٹ</title>
+    <!-- Tailwind CSS CDN for responsiveness and modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS for Jameel Noori Nastaliq font. */
+        /* NOTE: Web fallback (Noto Nastaliq Urdu) has been removed as per user request. */
+        
+        body {
+            /* SIRF Jameel Noori Nastaliq ko pehli tarjeeh (priority) di gayi hai. */
+            font-family: 'Jameel Noori Nastaliq', 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        /* Ensures the text direction is Right-to-Left (Mobile-friendly design ke liye zaruri) */
+        .rtl-text { direction: rtl; }
+        
+        /* Loading overlay styling */
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .loading-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        /* Table input spacing fix for mobile */
+        .performance-table input[type="number"] {
+            padding: 0.5rem 0.2rem; /* Thora sa padding de diya */
+            font-size: 0.8rem;
+        }
+        /* Ensure table content is readable on small screens */
+        .performance-table th, .performance-table td {
+            min-width: 60px; /* Minimum width for small cells */
+        }
+        
+        /* Custom style for Autocomplete Dropdown */
+        .suggestion-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .suggestion-item:hover {
+            background-color: #e5e5e5;
+        }
+        
+    </style>
+</head>
+<body class="rtl-text p-2 sm:p-4">
+
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-xl p-4 md:p-10 my-4">
+        
+        <header class="text-center mb-6">
+            <h1 class="text-2xl md:text-3xl font-extrabold text-blue-700 border-b-2 pb-2 border-blue-200">
+                ماہانہ مطالعہ اور تحریری کارکردگی
+            </h1>
+            <p class="text-gray-500 mt-2 text-sm md:text-base">
+                براہ کرم تمام معلومات درست اور مکمل فراہم کریں۔
+            </p>
+        </header>
+
+        <!-- Form Start -->
+        <form id="submissionForm" class="space-y-6">
+
+            <!-- General Information Section (UPDATED) -->
+            <section class="border-b pb-4 border-gray-100">
+                <h2 class="text-xl font-bold text-gray-700 mb-4 border-r-4 pr-2 border-green-500">بنیادی معلومات</h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    
+                    <!-- Row 1 (Jamia Name is now dynamic/autocomplete) -->
+                    <div class="relative">
+                        <label for="jameyaName" class="block text-sm font-medium text-gray-700 mb-1">جامعۃ المدینہ کا نام:</label>
+                        <input type="text" id="jameyaName" name="jameyaName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="نام لکھیں یا منتخب کریں">
+                        <!-- Autocomplete Suggestions Container -->
+                        <div id="jamiaSuggestions" class="absolute w-full z-10 bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto hidden">
+                            <!-- Suggestions will appear here -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="zimmadarName" class="block text-sm font-medium text-gray-700 mb-1">ذمہ دار نام:</label>
+                        <input type="text" id="zimmadarName" name="zimmadarName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div>
+                        <label for="mahina" class="block text-sm font-medium text-gray-700 mb-1">مہینہ:</label>
+                        <input type="month" id="mahina" name="mahina" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div>
+                        <!-- Region Dropdown with onchange event -->
+                        <label for="rijan" class="block text-sm font-medium text-gray-700 mb-1">ریجن:</label>
+                        <select id="rijan" name="shoba" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            <option value="" disabled selected>ریجن منتخب کریں</option>
+                            <option value="اجمیر">اجمیر</option>
+                            <option value="دہلی">دہلی</option>
+                            <option value="ممبئی">ممبئی</option>
+                            <option value="حیدرآباد">حیدرآباد</option>
+                            <option value="بینگلور">بینگلور</option>
+                            <option value="کلکتہ">کلکتہ</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="mobileNo" class="block text-sm font-medium text-gray-700 mb-1">موبائل نمبر:</label>
+                        <input type="tel" id="mobileNo" name="mobileNo" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" pattern="[0-9]{10,15}" title="Sirf numbers daalein">
+                    </div>
+                    
+                    <div>
+                        <label for="totalDarjaat" class="block text-sm font-medium text-gray-700 mb-1">کل درجات:</label>
+                        <input type="number" id="totalDarjaat" name="totalDarjaat" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div>
+                        <label for="totalHadaf" class="block text-sm font-medium text-gray-700 mb-1">مجموعی ہدف:</label>
+                        <input type="number" id="totalHadaf" name="totalHadaf" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div>
+                        <label for="totalStudents" class="block text-sm font-medium text-gray-700 mb-1">کل طلباء کی تعداد:</label>
+                        <input type="number" id="totalStudents" name="totalStudents" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="totalMazameen" class="block text-sm font-medium text-gray-700 mb-1">کل مضامین:</label>
+                        <input type="number" id="totalMazameen" name="totalMazameen" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <!-- Row 4 -->
+                    <div class="lg:col-span-1">
+                        <label for="totalStudiedPages" class="block text-sm font-medium text-gray-700 mb-1">کل مطالعہ صفحات:</label>
+                        <input type="number" id="totalStudiedPages" name="totalStudiedPages" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Performance Table Section (Horizontal Scroll on Mobile) -->
+            <section class="performance-table">
+                <!-- UPDATED TITLE: درجہ وار to درجہ وائز -->
+                <h2 class="text-xl font-bold text-gray-700 mb-4 border-r-4 pr-2 border-green-500">درجہ وائز کارکردگی کی تفصیلات</h2>
+                
+                <div class="overflow-x-auto shadow-md rounded-lg border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-100 sticky top-0">
+                            <tr>
+                                <th class="px-3 py-2 text-xs font-bold text-gray-600 tracking-wider text-center">نمبر</th>
+                                <th class="px-3 py-2 text-xs font-bold text-gray-600 tracking-wider text-center">درجہ / سال</th>
+                                <th class="px-3 py-2 text-xs font-bold text-gray-600 tracking-wider text-center">تعداد</th>
+                                <th class="px-3 py-2 text-xs font-bold text-gray-600 tracking-wider text-center">ہدف (صفحات)</th>
+                                <th class="px-3 py-2 text-xs font-bold text-gray-600 tracking-wider text-center">مطالعہ صفحات</th>
+                                <th class="px-3 py-2 text-xs font-bold text-gray-600 tracking-wider text-center">کل مضامین</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="performanceTableBody">
+                            <!-- Data Rows will be inserted by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Submit Button -->
+            <div class="flex justify-center pt-4">
+                <button type="submit" id="submitButton" class="w-full sm:w-auto px-10 py-3 bg-green-600 text-white font-bold text-lg rounded-full shadow-lg hover:bg-green-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50">
+                    رپورٹ جمع کریں
+                </button>
+            </div>
+            
+            <p id="responseMessage" class="text-center mt-4 font-semibold hidden p-2 rounded-lg"></p>
+
+        </form>
+        <!-- Form End -->
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    </div>
+
+    <script>
+        // Google Apps Script Web App URL - Data Submission/Fetching ke liye (UPDATED)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRiGxMXrtnawwmhfJ1ueQo8SiKgx6kBry8M682xqMrOIDILwF-4UYK2SGQWMQ0xD0s/exec'; 
+        
+        let dataJamia = []; // Variable to store fetched Jamia data (Region, Jamia Name)
+
+        const darjaat = [
+            'سال اول (Saal Awwal)', 
+            'سال دوم (Saal Dom)', 
+            'اولیٰ (Oola)', 
+            'ثانیہ (Saniya)', 
+            'ثالثہ (Salisa)', 
+            'رابعہ (Rabia)', 
+            'خامسہ (Khamisa)', 
+            'سادسہ (Sadisa)', 
+            'سابعہ (Sabia)', 
+            'دورہ حدیث (Dora Hadees)'
+        ];
+
+        const tableBody = document.getElementById('performanceTableBody');
+        const rijanSelect = document.getElementById('rijan');
+        const jameyaNameInput = document.getElementById('jameyaName');
+        const jamiaSuggestions = document.getElementById('jamiaSuggestions');
+
+
+        // Function to fetch Jamia data from Sheet2 via Apps Script (GET request)
+        async function fetchJamiaData() {
+            try {
+                // Showing loading state in the Jamia Name field
+                jameyaNameInput.placeholder = "Jamia Data load ho raha hai...";
+                jameyaNameInput.disabled = true;
+
+                // Making a GET request to the Apps Script URL
+                const response = await retryFetch(SCRIPT_URL, { method: 'GET' });
+                dataJamia = await response.json();
+                
+                if (dataJamia && dataJamia.error) {
+                    throw new Error(dataJamia.error);
+                }
+
+                jameyaNameInput.placeholder = "Jamia ka naam likhein ya select karein";
+                jameyaNameInput.disabled = false;
+                console.log("Jamia data loaded successfully:", dataJamia.length, "entries.");
+
+            } catch (error) {
+                console.error("Error fetching Jamia data:", error);
+                jameyaNameInput.placeholder = "Data loading mein error aagaya.";
+                jameyaNameInput.disabled = true;
+                // You may want to show a message to the user here
+            }
+        }
+        
+        // Function to filter and show suggestions based on Region and Input
+        function filterAndShowSuggestions() {
+            const selectedRegion = rijanSelect.value;
+            const inputText = jameyaNameInput.value.toLowerCase().trim();
+            
+            if (!selectedRegion && !inputText) {
+                jamiaSuggestions.classList.add('hidden');
+                return;
+            }
+
+            const filteredSuggestions = dataJamia.filter(item => {
+                const regionMatch = !selectedRegion || item.region === selectedRegion;
+                const inputMatch = item.jamia.toLowerCase().includes(inputText.toLowerCase()); // Case-insensitive match
+                return regionMatch && inputMatch;
+            });
+
+            renderSuggestions(filteredSuggestions);
+        }
+
+        // Function to render suggestions in the dropdown div
+        function renderSuggestions(suggestions) {
+            jamiaSuggestions.innerHTML = '';
+            
+            if (suggestions.length === 0) {
+                jamiaSuggestions.classList.add('hidden');
+                return;
+            }
+
+            suggestions.slice(0, 10).forEach(item => { // Show max 10 suggestions
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.textContent = item.jamia;
+                div.onclick = () => {
+                    jameyaNameInput.value = item.jamia;
+                    jamiaSuggestions.classList.add('hidden');
+                    // Remove focus to hide keyboard on mobile
+                    jameyaNameInput.blur(); 
+                };
+                jamiaSuggestions.appendChild(div);
+            });
+
+            jamiaSuggestions.classList.remove('hidden');
+        }
+        
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target !== jameyaNameInput && !jamiaSuggestions.contains(e.target)) {
+                jamiaSuggestions.classList.add('hidden');
+            }
+        });
+        
+        // Attach Event Listeners
+        rijanSelect.addEventListener('change', filterAndShowSuggestions);
+        jameyaNameInput.addEventListener('input', filterAndShowSuggestions);
+        jameyaNameInput.addEventListener('focus', filterAndShowSuggestions);
+        
+        
+        // Initial setup on load
+        window.onload = () => {
+            fetchJamiaData(); // Start fetching Jamia data
+            // Dynamically create table rows (existing logic)
+            darjaat.forEach((darja, index) => {
+                const row = tableBody.insertRow();
+                row.className = 'hover:bg-gray-50';
+                
+                const match = darja.match(/\((.*?)\)/);
+                let fieldNameBase = '';
+                if (match && match[1]) {
+                    fieldNameBase = match[1].toLowerCase().replace(/\s/g, ''); 
+                } else {
+                    fieldNameBase = darja.toLowerCase().replace(/[^a-z0-9]/g, '');
+                }
+
+                row.innerHTML = `
+                    <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-900 font-medium">${index + 1}</td>
+                    <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-900 font-medium">${darja}</td>
+                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_tadad" min="0" value="0" class="w-full text-center p-1 border rounded focus:border-blue-500"></td>
+                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_hadaf" min="0" value="0" class="w-full text-center p-1 border rounded focus:border-blue-500"></td>
+                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_safhat" min="0" value="0" class="w-full text-center p-1 border rounded focus:border-blue-500"></td>
+                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_mazameen" min="0" value="0" class="w-full text-center p-1 border rounded focus:border-blue-500"></td>
+                `;
+            });
+        }
+        
+        // Utility function for making API call with exponential backoff 
+        async function retryFetch(url, options, maxRetries = 5) {
+            for (let currentRetry = 0; currentRetry < maxRetries; currentRetry++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.status === 429 || (response.status >= 500 && response.status < 600)) {
+                        if (currentRetry < maxRetries - 1) {
+                            const delay = Math.pow(2, currentRetry) * 1000;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            continue; // Retry
+                        }
+                    }
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    if (currentRetry === maxRetries - 1) throw error;
+                    const delay = Math.pow(2, currentRetry) * 1000;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+        
+        // --- Google Sheet Submission Logic ---
+        
+        const form = document.getElementById('submissionForm');
+        const submitButton = document.getElementById('submitButton');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const responseMessage = document.getElementById('responseMessage');
+
+        // Function to show/hide loading state
+        function setLoading(isLoading) {
+            submitButton.disabled = isLoading;
+            submitButton.textContent = isLoading ? 'رپورٹ جمع ہو رہی ہے...' : 'رپورٹ جمع کریں';
+            loadingOverlay.classList.toggle('active', isLoading);
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                responseMessage.textContent = 'Error: SCRIPT_URL ko set karna lazmi hai.';
+                responseMessage.className = 'text-center mt-4 font-semibold text-red-600 block bg-red-100';
+                return;
+            }
+
+            setLoading(true);
+            responseMessage.textContent = '';
+            responseMessage.className = 'hidden';
+
+            const formData = new FormData(form);
+            
+            let success = false;
+            let finalError = null;
+
+            try {
+                // For form submission, we use POST request
+                const response = await retryFetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData 
+                });
+
+                const data = await response.json();
+                
+                if (data.result === 'success') {
+                    responseMessage.textContent = 'کامیابی! آپ کی رپورٹ Google Sheet میں جمع ہو گئی ہے۔';
+                    responseMessage.className = 'text-center mt-4 font-semibold text-green-600 block bg-green-100';
+                    form.reset(); // Clear form on success
+                    success = true;
+                } else {
+                    throw new Error(data.message || 'Server se ghair mutawaqqa jawab mila.');
+                }
+            } catch (error) {
+                finalError = error;
+            }
+
+            if (!success) {
+                console.error('Final Error submitting form:', finalError);
+                responseMessage.textContent = `Error: ${finalError.message || 'Form jama nahi ho saka.'}`;
+                responseMessage.className = 'text-center mt-4 font-semibold text-red-600 block bg-red-100';
+            }
+
+            setLoading(false);
+        });
+    </script>
+</body>
+</html>
