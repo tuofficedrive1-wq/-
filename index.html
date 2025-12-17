@@ -155,23 +155,27 @@
                     <!-- Row 3 -->
                     <div>
                         <label for="totalHadaf" class="block font-medium text-gray-700 mb-1">مجموعی ہدف:</label>
-                        <input type="number" id="totalHadaf" name="totalHadaf" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
+                        <input type="number" id="totalHadaf" name="totalHadaf" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
                     </div>
 
                     <div>
                         <label for="totalStudents" class="block font-medium text-gray-700 mb-1">کل طلباء کی تعداد:</label>
-                        <input type="number" id="totalStudents" name="totalStudents" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
+                        <input type="number" id="totalStudents" name="totalStudents" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
                     </div>
                     
                     <div>
                         <label for="totalMazameen" class="block font-medium text-gray-700 mb-1">کل مضامین:</label>
-                        <input type="number" id="totalMazameen" name="totalMazameen" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
+                        <input type="number" id="totalMazameen" name="totalMazameen" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
                     </div>
                     
                     <!-- Row 4 -->
                     <div class="lg:col-span-1">
                         <label for="totalStudiedPages" class="block font-medium text-gray-700 mb-1">کل مطالعہ صفحات:</label>
-                        <input type="number" id="totalStudiedPages" name="totalStudiedPages" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
+                        <input type="number" id="totalStudiedPages" name="totalStudiedPages" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
                     </div>
                 </div>
             </section>
@@ -182,7 +186,7 @@
                 <h2 class="text-xl font-bold text-gray-700 mb-4 border-r-4 pr-2 border-blue-600">درجہ وائز کارکردگی کی تفصیلات</h2>
                 
                 <div class="overflow-x-auto shadow-md rounded-lg border border-gray-200">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200" id="performanceTable">
                         <thead class="sticky top-0">
                             <tr>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">نمبر</th>
@@ -245,6 +249,71 @@
         const rijanSelect = document.getElementById('rijan');
         const jameyaNameInput = document.getElementById('jameyaName');
         const jamiaSuggestions = document.getElementById('jamiaSuggestions');
+        const totalStudentsInput = document.getElementById('totalStudents');
+        const totalHadafInput = document.getElementById('totalHadaf'); 
+        const totalStudiedPagesInput = document.getElementById('totalStudiedPages');
+        const totalMazameenInput = document.getElementById('totalMazameen'); // New reference for Total Mazameen
+
+
+        // --- Logic: Auto Calculate Total Students ---
+        function calculateTotalStudents() {
+            let total = 0;
+            // Select all input fields whose name ends with '_tadad'
+            const tadadInputs = document.querySelectorAll('input[name$="_tadad"]');
+            
+            tadadInputs.forEach(input => {
+                const value = parseInt(input.value) || 0;
+                total += value;
+            });
+            
+            totalStudentsInput.value = total;
+        }
+        // ------------------------------------------
+
+        // --- Logic: Auto Calculate Total Hadaf ---
+        function calculateTotalHadaf() {
+            let total = 0;
+            // Select all input fields whose name ends with '_hadaf'
+            const hadafInputs = document.querySelectorAll('input[name$="_hadaf"]');
+            
+            hadafInputs.forEach(input => {
+                const value = parseInt(input.value) || 0;
+                total += value;
+            });
+            
+            totalHadafInput.value = total;
+        }
+        // ------------------------------------------
+
+        // --- Logic: Auto Calculate Total Studied Pages ---
+        function calculateTotalStudiedPages() {
+            let total = 0;
+            // Select all input fields whose name ends with '_safhat'
+            const safhatInputs = document.querySelectorAll('input[name$="_safhat"]');
+            
+            safhatInputs.forEach(input => {
+                const value = parseInt(input.value) || 0;
+                total += value;
+            });
+            
+            totalStudiedPagesInput.value = total;
+        }
+        // ------------------------------------------
+
+        // --- Logic: Auto Calculate Total Mazameen ---
+        function calculateTotalMazameen() {
+            let total = 0;
+            // Select all input fields whose name ends with '_mazameen'
+            const mazameenInputs = document.querySelectorAll('input[name$="_mazameen"]');
+            
+            mazameenInputs.forEach(input => {
+                const value = parseInt(input.value) || 0;
+                total += value;
+            });
+            
+            totalMazameenInput.value = total;
+        }
+        // ------------------------------------------
 
 
         // Function to fetch Jamia data from Sheet2 via Apps Script (GET request)
@@ -334,6 +403,7 @@
         // Initial setup on load
         window.onload = () => {
             fetchJamiaData(); // Start fetching Jamia data
+            
             // Dynamically create table rows (existing logic)
             darjaat.forEach((darja, index) => {
                 const row = tableBody.insertRow();
@@ -341,17 +411,58 @@
                 
                 // Naya logic: object properties use karna
                 const fieldNameBase = darja.nameBase;
+                const tadadFieldName = `${fieldNameBase}_tadad`; // Name used for quantity input
+                const hadafFieldName = `${fieldNameBase}_hadaf`; // Name used for hadaf input
+                const safhatFieldName = `${fieldNameBase}_safhat`; // Name used for safhat input
+                const mazameenFieldName = `${fieldNameBase}_mazameen`; // Name used for mazameen input
+
 
                 // *** REMOVED value="0" ***
                 row.innerHTML = `
                     <td class="px-3 py-3 whitespace-nowrap text-base text-gray-900 font-medium text-center">${index + 1}</td>
                     <td class="px-3 py-3 whitespace-nowrap text-base text-gray-900 font-medium">${darja.display}</td>
-                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_tadad" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
-                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_hadaf" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
-                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_safhat" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
-                    <td class="px-3 py-3 whitespace-nowrap"><input type="number" name="${fieldNameBase}_mazameen" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
+                    <td class="px-3 py-3 whitespace-nowrap">
+                        <input type="number" name="${tadadFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm tadad-input">
+                    </td>
+                    <td class="px-3 py-3 whitespace-nowrap">
+                        <input type="number" name="${hadafFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm hadaf-input">
+                    </td>
+                    <td class="px-3 py-3 whitespace-nowrap">
+                        <input type="number" name="${safhatFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm safhat-input">
+                    </td>
+                    <td class="px-3 py-3 whitespace-nowrap">
+                        <input type="number" name="${mazameenFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm mazameen-input">
+                    </td>
                 `;
             });
+
+            // *** IMPORTANT: Attach event listeners after the table rows are created ***
+            // 1. Attach input listener to all 'तदाद' fields for auto-calculation (Total Students)
+            document.querySelectorAll('.tadad-input').forEach(input => {
+                input.addEventListener('input', calculateTotalStudents);
+            });
+            
+            // 2. Attach input listener to all 'hadaf' fields for auto-calculation (Total Hadaf)
+            document.querySelectorAll('.hadaf-input').forEach(input => {
+                input.addEventListener('input', calculateTotalHadaf);
+            });
+
+            // 3. Attach input listener to all 'safhat' fields for auto-calculation (Total Studied Pages)
+            document.querySelectorAll('.safhat-input').forEach(input => {
+                input.addEventListener('input', calculateTotalStudiedPages);
+            });
+
+            // 4. Attach input listener to all 'mazameen' fields for auto-calculation (Total Mazameen)
+            document.querySelectorAll('.mazameen-input').forEach(input => {
+                input.addEventListener('input', calculateTotalMazameen);
+            });
+
+
+            // Calculate initial totals (should be 0)
+            calculateTotalStudents();
+            calculateTotalHadaf();
+            calculateTotalStudiedPages();
+            calculateTotalMazameen();
         }
         
         // Utility function for making API call with exponential backoff 
