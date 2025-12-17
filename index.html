@@ -420,7 +420,8 @@
                 const data = await response.json();
                 
                 if (data.result === 'success') {
-                    responseMessage.textContent = 'کامیابی! آپ کی رپورٹ Google Sheet میں جمع ہو گئی ہے۔';
+                    // UPDATED SUCCESS MESSAGE
+                    responseMessage.textContent = ' آپ کی رپورٹ مجلس ماہانہ مطالعہ اور تحریری کارکردگی کے پاس کامیابی کے ساتھ جمع ہو گئی ہے۔';
                     responseMessage.className = 'text-center mt-4 font-semibold text-green-600 block bg-green-100';
                     form.reset(); // Clear form on success
                     success = true;
