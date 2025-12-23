@@ -10,7 +10,6 @@
         /* --- Jameel Noori Nastaliq Font Loading (Web-Compatible) --- */
         @font-face {
             font-family: 'Jameel Noori Nastaleeq';
-            /* Publicly accessible URL for WOFF2 format */
             src: url('https://cdn.jsdelivr.net/gh/sajjadsaeed/UrduFontsWeb@master/fonts/JameelNooriNastaleeq.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
@@ -18,21 +17,19 @@
         }
         
         body {
-            /* Font size increase for general body text (1.2rem) */
             font-family: 'Jameel Noori Nastaleeq', 'Inter', sans-serif;
-            /* Added gradient background for a unique look */
             background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
-            font-size: 1.3rem; /* Base font size aur bada kiya gaya (1.3rem) */
+            font-size: 1.3rem; 
         }
-        /* Ensures the text direction is Right-to-Left (Mobile-friendly design ke liye zaruri) */
         .rtl-text { direction: rtl; }
         
-        /* Loading overlay styling */
+        /* Loading overlay styling - Updated for vertical alignment */
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             display: flex;
+            flex-direction: column; /* Stack elements vertically */
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -44,42 +41,39 @@
             opacity: 1;
             pointer-events: auto;
         }
-        /* Table input spacing and size fix for mobile */
+        /* Table styling */
         .performance-table input[type="number"] {
             padding: 0.5rem 0.2rem;
-            font-size: 1.1rem; /* Table input size aur bada kiya gaya */
+            font-size: 1.1rem; 
         }
-        /* Ensure table content is readable on small screens */
         .performance-table th, .performance-table td {
-            min-width: 60px; /* Minimum width for small cells */
-            font-size: 1.1rem; /* Table cell font size aur bada kiya gaya */
+            min-width: 60px;
+            font-size: 1.1rem; 
         }
-        /* Custom Table Header Style */
         .performance-table thead th {
-            background-color: #0d47a1; /* Dark blue header */
+            background-color: #0d47a1; 
             color: white;
             border: 1px solid #0d47a1;
         }
         
-        /* Custom style for Autocomplete Dropdown */
+        /* Autocomplete Suggestions */
         .suggestion-item {
             padding: 8px 12px;
             cursor: pointer;
             border-bottom: 1px solid #eee;
-            font-size: 1rem; /* Suggestion items ka size theek rakha gaya */
+            font-size: 1rem; 
         }
         .suggestion-item:hover {
-            background-color: #d1e5ff; /* Light blue on hover */
+            background-color: #d1e5ff; 
         }
-        /* Heading size wahi rakhi gayi hai */
+        
         h1 { font-size: 1.5rem; }
         h2 { font-size: 1.25rem; }
-        label, input, select, button { font-size: 1.2rem; } /* Control size bhi bada kiya gaya */
+        label, input, select, button { font-size: 1.2rem; }
 
-        /* Input Focus Style */
         input:focus, select:focus {
-            border-color: #1565c0 !important; /* Deeper blue focus border */
-            box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.5); /* Blue glow */
+            border-color: #1565c0 !important;
+            box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.5);
         }
         
     </style>
@@ -100,39 +94,32 @@
         <!-- Form Start -->
         <form id="submissionForm" class="space-y-8">
 
-            <!-- General Information Section (UPDATED STYLING) -->
+            <!-- General Information Section -->
             <section class="p-4 rounded-xl shadow-lg border border-blue-100 bg-blue-50/50">
                 <h2 class="text-xl font-bold text-gray-700 mb-4 border-r-4 pr-2 border-green-600">بنیادی معلومات</h2>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     
-                    <!-- Row 1 (Jamia Name is now dynamic/autocomplete) -->
                     <div class="relative">
                         <label for="jameyaName" class="block font-medium text-gray-700 mb-1">جامعۃ المدینہ کا نام:</label>
-                        <input type="text" id="jameyaName" name="jameyaName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" placeholder="نام لکھیں یا منتخب کریں">
-                        <!-- Autocomplete Suggestions Container -->
-                        <div id="jamiaSuggestions" class="absolute w-full z-10 bg-white border border-gray-300 rounded-lg shadow-xl mt-1 max-h-48 overflow-y-auto hidden">
-                            <!-- Suggestions will appear here -->
-                        </div>
+                        <input type="text" id="jameyaName" name="jameyaName" required class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" placeholder="نام لکھیں یا منتخب کریں">
+                        <div id="jamiaSuggestions" class="absolute w-full z-10 bg-white border border-gray-300 rounded-lg shadow-xl mt-1 max-h-48 overflow-y-auto hidden"></div>
                     </div>
 
                     <div>
                         <label for="zimmadarName" class="block font-medium text-gray-700 mb-1">ذمہ دار نام:</label>
-                        <input type="text" id="zimmadarName" name="zimmadarName" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <input type="text" id="zimmadarName" name="zimmadarName" required class="w-full p-2 border border-gray-300 rounded-lg shadow-sm">
                     </div>
 
                     <div>
                         <label for="mahina" class="block font-medium text-gray-700 mb-1">مہینہ:</label>
-                        <input type="month" id="mahina" name="mahina" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <input type="month" id="mahina" name="mahina" required class="w-full p-2 border border-gray-300 rounded-lg shadow-sm">
                     </div>
 
-                    <!-- Row 2 -->
                     <div>
-                        <!-- Region Dropdown -->
                         <label for="rijan" class="block font-medium text-gray-700 mb-1">ریجن:</label>
-                        <select id="rijan" name="shoba" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <select id="rijan" name="shoba" required class="w-full p-2 border border-gray-300 rounded-lg shadow-sm">
                             <option value="" disabled selected>ریجن منتخب کریں</option>
-                            <!-- Removed English text from options -->
                             <option value="اجمیر">اجمیر</option>
                             <option value="دہلی">دہلی</option>
                             <option value="ممبئی">ممبئی</option>
@@ -144,45 +131,38 @@
                     
                     <div>
                         <label for="mobileNo" class="block font-medium text-gray-700 mb-1">موبائل نمبر:</label>
-                        <input type="tel" id="mobileNo" name="mobileNo" required class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" pattern="[0-9]{10,15}" title="Sirf numbers daalein">
+                        <input type="tel" id="mobileNo" name="mobileNo" required class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" pattern="[0-9]{10,15}">
                     </div>
                     
                     <div>
                         <label for="totalDarjaat" class="block font-medium text-gray-700 mb-1">کل درجات:</label>
-                        <input type="number" id="totalDarjaat" name="totalDarjaat" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <input type="number" id="totalDarjaat" name="totalDarjaat" required min="0" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm">
                     </div>
 
-                    <!-- Row 3 -->
                     <div>
                         <label for="totalHadaf" class="block font-medium text-gray-700 mb-1">مجموعی ہدف:</label>
-                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
-                        <input type="number" id="totalHadaf" name="totalHadaf" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
+                        <input type="number" id="totalHadaf" name="totalHadaf" required min="0" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" readonly>
                     </div>
 
                     <div>
                         <label for="totalStudents" class="block font-medium text-gray-700 mb-1">کل طلباء کی تعداد:</label>
-                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
-                        <input type="number" id="totalStudents" name="totalStudents" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
+                        <input type="number" id="totalStudents" name="totalStudents" required min="0" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" readonly>
                     </div>
                     
                     <div>
                         <label for="totalMazameen" class="block font-medium text-gray-700 mb-1">کل مضامین:</label>
-                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
-                        <input type="number" id="totalMazameen" name="totalMazameen" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
+                        <input type="number" id="totalMazameen" name="totalMazameen" required min="0" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" readonly>
                     </div>
                     
-                    <!-- Row 4 -->
                     <div class="lg:col-span-1">
                         <label for="totalStudiedPages" class="block font-medium text-gray-700 mb-1">کل مطالعہ صفحات:</label>
-                        <!-- IMPORTANT: is field mein ab auto-calculation hogi -->
-                        <input type="number" id="totalStudiedPages" name="totalStudiedPages" required min="0" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 shadow-sm" readonly>
+                        <input type="number" id="totalStudiedPages" name="totalStudiedPages" required min="0" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" readonly>
                     </div>
                 </div>
             </section>
 
-            <!-- Performance Table Section (Horizontal Scroll on Mobile) -->
+            <!-- Performance Table Section -->
             <section class="performance-table p-4 rounded-xl shadow-lg border border-green-100 bg-green-50/50">
-                <!-- UPDATED TITLE: درجہ وار to درجہ وائز -->
                 <h2 class="text-xl font-bold text-gray-700 mb-4 border-r-4 pr-2 border-blue-600">درجہ وائز کارکردگی کی تفصیلات</h2>
                 
                 <div class="overflow-x-auto shadow-md rounded-lg border border-gray-200">
@@ -190,7 +170,7 @@
                         <thead class="sticky top-0">
                             <tr>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">نمبر</th>
-                                <th class="px-3 py-2 font-bold tracking-wider text-center">درجہ / سال</th>
+                                <th class="px-3 py-2 font-bold tracking-wider text-center">درجہ</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">تعداد</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">ہدف (صفحات)</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">مطالعہ صفحات</th>
@@ -198,13 +178,12 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="performanceTableBody">
-                            <!-- Data Rows will be inserted by JavaScript -->
+                            <!-- JS se rows ayengi -->
                         </tbody>
                     </table>
                 </div>
             </section>
             
-            <!-- Submit Button -->
             <div class="flex justify-center pt-4">
                 <button type="submit" id="submitButton" class="w-full sm:w-auto px-10 py-3 bg-blue-600 text-white font-extrabold text-lg rounded-full shadow-xl hover:bg-blue-700 transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-70">
                     رپورٹ جمع کریں
@@ -214,342 +193,193 @@
             <p id="responseMessage" class="text-center mt-4 font-semibold hidden p-2 rounded-lg"></p>
 
         </form>
-        <!-- Form End -->
     </div>
 
-    <!-- Loading Overlay -->
+    <!-- Loading Overlay with Book Logo and Durood-e-Pak -->
     <div id="loadingOverlay" class="loading-overlay">
-        <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <!-- Book Logo (SVG) -->
+        <div class="mb-4 text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        </div>
+        
+        <!-- Spinning Loader -->
+        <svg class="animate-spin h-10 w-10 text-blue-600 mb-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
+
+        <!-- Durood-e-Pak Text -->
+        <div class="text-center">
+            <p class="text-blue-800 font-bold text-2xl mb-2" style="line-height: 1.6;">
+                صَلُّوا عَلَى الحَبِيب !
+            </p>
+            <p class="text-green-700 font-bold text-xl">
+                صَلَّى اللهُ عَلَى مُحَمَّد
+            </p>
+        </div>
     </div>
 
     <script>
-        // Google Apps Script Web App URL - Data Submission/Fetching ke liye (UPDATED)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRiGxMXrtnawwmhfJ1ueQo8SiKgx6kBry8M682xqMrOIDILwF-4UYK2SGQWMQ0xD0s/exec'; 
         
-        let dataJamia = []; // Variable to store fetched Jamia data (Region, Jamia Name)
+        let dataJamia = []; 
 
-        // UPDATED: Ab darjaat ke sirf Urdu aur Roman base name hain (Roman base Apps Script ke liye zaruri hai)
+        // Darjaat ke makhsoos target aur name
         const darjaat = [
-            { display: 'سال اول', nameBase: 'saalawwal' }, 
-            { display: 'سال دوم', nameBase: 'saaldom' }, 
-            { display: 'اولیٰ', nameBase: 'oola' }, 
-            { display: 'ثانیہ', nameBase: 'saniya' }, 
-            { display: 'ثالثہ', nameBase: 'salisa' }, 
-            { display: 'رابعہ', nameBase: 'rabia' }, 
-            { display: 'خامسہ', nameBase: 'khamisa' }, 
-            { display: 'سادسہ', nameBase: 'sadisa' }, 
-            { display: 'سابعہ', nameBase: 'sabia' }, 
-            { display: 'دورہ حدیث', nameBase: 'dorahadees' }
+            { display: 'سال اول', nameBase: 'saalawwal', target: 150 }, 
+            { display: 'سال دوم', nameBase: 'saaldom', target: 150 }, 
+            { display: 'اولیٰ', nameBase: 'oola', target: 450 }, 
+            { display: 'ثانیہ', nameBase: 'saniya', target: 450 }, 
+            { display: 'ثالثہ', nameBase: 'salisa', target: 600 }, 
+            { display: 'رابعہ', nameBase: 'rabia', target: 600 }, 
+            { display: 'خامسہ', nameBase: 'khamisa', target: 750 }, 
+            { display: 'سادسہ', nameBase: 'sadisa', target: 750 }, 
+            { display: 'سابعہ', nameBase: 'sabia', target: 900 }, 
+            { display: 'دورہ حدیث', nameBase: 'dorahadees', target: 900 }
         ];
 
         const tableBody = document.getElementById('performanceTableBody');
         const rijanSelect = document.getElementById('rijan');
         const jameyaNameInput = document.getElementById('jameyaName');
         const jamiaSuggestions = document.getElementById('jamiaSuggestions');
+        
         const totalStudentsInput = document.getElementById('totalStudents');
         const totalHadafInput = document.getElementById('totalHadaf'); 
         const totalStudiedPagesInput = document.getElementById('totalStudiedPages');
-        const totalMazameenInput = document.getElementById('totalMazameen'); // New reference for Total Mazameen
+        const totalMazameenInput = document.getElementById('totalMazameen');
 
-
-        // --- Logic: Auto Calculate Total Students ---
-        function calculateTotalStudents() {
-            let total = 0;
-            // Select all input fields whose name ends with '_tadad'
-            const tadadInputs = document.querySelectorAll('input[name$="_tadad"]');
+        function updateAllTotals() {
+            let tStudents = 0, tHadaf = 0, tSafhat = 0, tMazameen = 0;
             
-            tadadInputs.forEach(input => {
-                const value = parseInt(input.value) || 0;
-                total += value;
-            });
+            document.querySelectorAll('.tadad-input').forEach(i => tStudents += (parseInt(i.value) || 0));
+            document.querySelectorAll('.hadaf-input').forEach(i => tHadaf += (parseInt(i.value) || 0));
+            document.querySelectorAll('.safhat-input').forEach(i => tSafhat += (parseInt(i.value) || 0));
+            document.querySelectorAll('.mazameen-input').forEach(i => tMazameen += (parseInt(i.value) || 0));
             
-            totalStudentsInput.value = total;
+            totalStudentsInput.value = tStudents;
+            totalHadafInput.value = tHadaf;
+            totalStudiedPagesInput.value = tSafhat;
+            totalMazameenInput.value = tMazameen;
         }
-        // ------------------------------------------
 
-        // --- Logic: Auto Calculate Total Hadaf ---
-        function calculateTotalHadaf() {
-            let total = 0;
-            // Select all input fields whose name ends with '_hadaf'
-            const hadafInputs = document.querySelectorAll('input[name$="_hadaf"]');
+        function handleTadadChange(event) {
+            const tadadInput = event.target;
+            const row = tadadInput.closest('tr');
+            const hadafInput = row.querySelector('.hadaf-input');
             
-            hadafInputs.forEach(input => {
-                const value = parseInt(input.value) || 0;
-                total += value;
-            });
+            const classTarget = parseInt(tadadInput.getAttribute('data-target')) || 0;
+            const studentCount = parseInt(tadadInput.value) || 0;
             
-            totalHadafInput.value = total;
+            hadafInput.value = studentCount * classTarget;
+            
+            updateAllTotals();
         }
-        // ------------------------------------------
 
-        // --- Logic: Auto Calculate Total Studied Pages ---
-        function calculateTotalStudiedPages() {
-            let total = 0;
-            // Select all input fields whose name ends with '_safhat'
-            const safhatInputs = document.querySelectorAll('input[name$="_safhat"]');
-            
-            safhatInputs.forEach(input => {
-                const value = parseInt(input.value) || 0;
-                total += value;
-            });
-            
-            totalStudiedPagesInput.value = total;
-        }
-        // ------------------------------------------
-
-        // --- Logic: Auto Calculate Total Mazameen ---
-        function calculateTotalMazameen() {
-            let total = 0;
-            // Select all input fields whose name ends with '_mazameen'
-            const mazameenInputs = document.querySelectorAll('input[name$="_mazameen"]');
-            
-            mazameenInputs.forEach(input => {
-                const value = parseInt(input.value) || 0;
-                total += value;
-            });
-            
-            totalMazameenInput.value = total;
-        }
-        // ------------------------------------------
-
-
-        // Function to fetch Jamia data from Sheet2 via Apps Script (GET request)
         async function fetchJamiaData() {
             try {
-                // Showing loading state in the Jamia Name field
                 jameyaNameInput.placeholder = "Jamia Data load ho raha hai...";
                 jameyaNameInput.disabled = true;
-
-                // Making a GET request to the Apps Script URL
-                const response = await retryFetch(SCRIPT_URL, { method: 'GET' });
+                const response = await fetch(SCRIPT_URL);
                 dataJamia = await response.json();
-                
-                if (dataJamia && dataJamia.error) {
-                    throw new Error(dataJamia.error);
-                }
-
                 jameyaNameInput.placeholder = "نام لکھیں یا منتخب کریں";
                 jameyaNameInput.disabled = false;
-                console.log("Jamia data loaded successfully:", dataJamia.length, "entries.");
-
             } catch (error) {
                 console.error("Error fetching Jamia data:", error);
-                jameyaNameInput.placeholder = "Data loading mein error aagaya.";
-                jameyaNameInput.disabled = true;
-                // You may want to show a message to the user here
+                jameyaNameInput.placeholder = "Data load nahi ho saka.";
             }
         }
         
-        // Function to filter and show suggestions based on Region and Input
         function filterAndShowSuggestions() {
             const selectedRegion = rijanSelect.value;
             const inputText = jameyaNameInput.value.toLowerCase().trim();
-            
-            if (!selectedRegion && !inputText) {
-                jamiaSuggestions.classList.add('hidden');
-                return;
-            }
-
-            const filteredSuggestions = dataJamia.filter(item => {
+            if (!selectedRegion && !inputText) { jamiaSuggestions.classList.add('hidden'); return; }
+            const filtered = dataJamia.filter(item => {
                 const regionMatch = !selectedRegion || item.region === selectedRegion;
-                const inputMatch = item.jamia.toLowerCase().includes(inputText.toLowerCase()); // Case-insensitive match
+                const inputMatch = item.jamia.toLowerCase().includes(inputText);
                 return regionMatch && inputMatch;
             });
-
-            renderSuggestions(filteredSuggestions);
+            renderSuggestions(filtered);
         }
 
-        // Function to render suggestions in the dropdown div
         function renderSuggestions(suggestions) {
             jamiaSuggestions.innerHTML = '';
-            
-            if (suggestions.length === 0) {
-                jamiaSuggestions.classList.add('hidden');
-                return;
-            }
-
-            suggestions.slice(0, 10).forEach(item => { // Show max 10 suggestions
+            if (suggestions.length === 0) { jamiaSuggestions.classList.add('hidden'); return; }
+            suggestions.slice(0, 10).forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'suggestion-item';
                 div.textContent = item.jamia;
                 div.onclick = () => {
                     jameyaNameInput.value = item.jamia;
                     jamiaSuggestions.classList.add('hidden');
-                    // Remove focus to hide keyboard on mobile
                     jameyaNameInput.blur(); 
                 };
                 jamiaSuggestions.appendChild(div);
             });
-
             jamiaSuggestions.classList.remove('hidden');
         }
         
-        // Hide suggestions when clicking outside
         document.addEventListener('click', (e) => {
             if (e.target !== jameyaNameInput && !jamiaSuggestions.contains(e.target)) {
                 jamiaSuggestions.classList.add('hidden');
             }
         });
         
-        // Attach Event Listeners
         rijanSelect.addEventListener('change', filterAndShowSuggestions);
         jameyaNameInput.addEventListener('input', filterAndShowSuggestions);
         jameyaNameInput.addEventListener('focus', filterAndShowSuggestions);
         
-        
-        // Initial setup on load
         window.onload = () => {
-            fetchJamiaData(); // Start fetching Jamia data
-            
-            // Dynamically create table rows (existing logic)
+            fetchJamiaData();
             darjaat.forEach((darja, index) => {
                 const row = tableBody.insertRow();
                 row.className = 'hover:bg-gray-50';
-                
-                // Naya logic: object properties use karna
-                const fieldNameBase = darja.nameBase;
-                const tadadFieldName = `${fieldNameBase}_tadad`; // Name used for quantity input
-                const hadafFieldName = `${fieldNameBase}_hadaf`; // Name used for hadaf input
-                const safhatFieldName = `${fieldNameBase}_safhat`; // Name used for safhat input
-                const mazameenFieldName = `${fieldNameBase}_mazameen`; // Name used for mazameen input
-
-
-                // *** REMOVED value="0" ***
+                const base = darja.nameBase;
                 row.innerHTML = `
-                    <td class="px-3 py-3 whitespace-nowrap text-base text-gray-900 font-medium text-center">${index + 1}</td>
-                    <td class="px-3 py-3 whitespace-nowrap text-base text-gray-900 font-medium">${darja.display}</td>
-                    <td class="px-3 py-3 whitespace-nowrap">
-                        <input type="number" name="${tadadFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm tadad-input">
-                    </td>
-                    <td class="px-3 py-3 whitespace-nowrap">
-                        <input type="number" name="${hadafFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm hadaf-input">
-                    </td>
-                    <td class="px-3 py-3 whitespace-nowrap">
-                        <input type="number" name="${safhatFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm safhat-input">
-                    </td>
-                    <td class="px-3 py-3 whitespace-nowrap">
-                        <input type="number" name="${mazameenFieldName}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm mazameen-input">
-                    </td>
+                    <td class="px-3 py-3 text-base text-gray-900 font-medium text-center">${index + 1}</td>
+                    <td class="px-3 py-3 text-base text-gray-900 font-medium">${darja.display}</td>
+                    <td class="px-3 py-3"><input type="number" id="${base}_tadad" name="${base}_tadad" data-target="${darja.target}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm tadad-input"></td>
+                    <td class="px-3 py-3"><input type="number" id="${base}_hadaf" name="${base}_hadaf" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm hadaf-input"></td>
+                    <td class="px-3 py-3"><input type="number" id="${base}_safhat" name="${base}_safhat" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm safhat-input"></td>
+                    <td class="px-3 py-3"><input type="number" id="${base}_mazameen" name="${base}_mazameen" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm mazameen-input"></td>
                 `;
             });
 
-            // *** IMPORTANT: Attach event listeners after the table rows are created ***
-            // 1. Attach input listener to all 'तदाद' fields for auto-calculation (Total Students)
-            document.querySelectorAll('.tadad-input').forEach(input => {
-                input.addEventListener('input', calculateTotalStudents);
-            });
-            
-            // 2. Attach input listener to all 'hadaf' fields for auto-calculation (Total Hadaf)
-            document.querySelectorAll('.hadaf-input').forEach(input => {
-                input.addEventListener('input', calculateTotalHadaf);
-            });
-
-            // 3. Attach input listener to all 'safhat' fields for auto-calculation (Total Studied Pages)
-            document.querySelectorAll('.safhat-input').forEach(input => {
-                input.addEventListener('input', calculateTotalStudiedPages);
-            });
-
-            // 4. Attach input listener to all 'mazameen' fields for auto-calculation (Total Mazameen)
-            document.querySelectorAll('.mazameen-input').forEach(input => {
-                input.addEventListener('input', calculateTotalMazameen);
-            });
-
-
-            // Calculate initial totals (should be 0)
-            calculateTotalStudents();
-            calculateTotalHadaf();
-            calculateTotalStudiedPages();
-            calculateTotalMazameen();
+            document.querySelectorAll('.tadad-input').forEach(input => input.addEventListener('input', handleTadadChange));
+            document.querySelectorAll('.hadaf-input, .safhat-input, .mazameen-input').forEach(input => input.addEventListener('input', updateAllTotals));
         }
-        
-        // Utility function for making API call with exponential backoff 
-        async function retryFetch(url, options, maxRetries = 5) {
-            for (let currentRetry = 0; currentRetry < maxRetries; currentRetry++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.status === 429 || (response.status >= 500 && response.status < 600)) {
-                        if (currentRetry < maxRetries - 1) {
-                            const delay = Math.pow(2, currentRetry) * 1000;
-                            await new Promise(resolve => setTimeout(resolve, delay));
-                            continue; // Retry
-                        }
-                    }
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response;
-                } catch (error) {
-                    if (currentRetry === maxRetries - 1) throw error;
-                    const delay = Math.pow(2, currentRetry) * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                }
-            }
-        }
-        
-        // --- Google Sheet Submission Logic ---
         
         const form = document.getElementById('submissionForm');
         const submitButton = document.getElementById('submitButton');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const responseMessage = document.getElementById('responseMessage');
 
-        // Function to show/hide loading state
-        function setLoading(isLoading) {
-            submitButton.disabled = isLoading;
-            submitButton.textContent = isLoading ? 'رپورٹ جمع ہو رہی ہے...' : 'رپورٹ جمع کریں';
-            loadingOverlay.classList.toggle('active', isLoading);
-        }
-
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
-                responseMessage.textContent = 'Error: SCRIPT_URL ko set karna lazmi hai.';
-                responseMessage.className = 'text-center mt-4 font-semibold text-red-600 block bg-red-100';
-                return;
-            }
-
-            setLoading(true);
-            responseMessage.textContent = '';
+            submitButton.disabled = true;
+            loadingOverlay.classList.add('active');
             responseMessage.className = 'hidden';
 
             const formData = new FormData(form);
-            
-            let success = false;
-            let finalError = null;
-
             try {
-                // For form submission, we use POST request
-                const response = await retryFetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData 
-                });
-
+                const response = await fetch(SCRIPT_URL, { method: 'POST', body: formData });
                 const data = await response.json();
-                
                 if (data.result === 'success') {
-                    // UPDATED SUCCESS MESSAGE
-                    responseMessage.textContent = ' آپ کی رپورٹ مجلس ماہانہ مطالعہ اور تحریری کارکردگی کے پاس کامیابی کے ساتھ جمع ہو گئی ہے۔';
-                    responseMessage.className = 'text-center mt-4 font-semibold text-green-600 block bg-green-100';
-                    form.reset(); // Clear form on success
-                    success = true;
+                    responseMessage.textContent = 'آپ کی رپورٹ مجلس ماہانہ مطالعہ اور تحریری کارکردگی کے پاس کامیابی کے ساتھ جمع ہو گئی ہے۔';
+                    responseMessage.className = 'text-center mt-4 font-semibold text-green-600 block bg-green-100 p-3 rounded-lg shadow';
+                    form.reset();
+                    updateAllTotals();
                 } else {
-                    throw new Error(data.message || 'Server se ghair mutawaqqa jawab mila.');
+                    throw new Error(data.message);
                 }
             } catch (error) {
-                finalError = error;
+                responseMessage.textContent = 'Error: ' + error.message;
+                responseMessage.className = 'text-center mt-4 font-semibold text-red-600 block bg-red-100 p-3 rounded-lg shadow';
+            } finally {
+                submitButton.disabled = false;
+                loadingOverlay.classList.remove('active');
             }
-
-            if (!success) {
-                console.error('Final Error submitting form:', finalError);
-                responseMessage.textContent = `Error: ${finalError.message || 'Form jama nahi ho saka.'}`;
-                responseMessage.className = 'text-center mt-4 font-semibold text-red-600 block bg-red-100';
-            }
-
-            setLoading(false);
         });
     </script>
 </body>
