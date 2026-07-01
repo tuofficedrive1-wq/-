@@ -172,8 +172,12 @@
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">نمبر</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">درجہ</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">تعداد</th>
+                                <!-- Naya Column 1 -->
+                                <th class="px-3 py-2 font-bold tracking-wider text-center">مطالعہ کرنے والے طلبہ</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">ہدف (صفحات)</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">مطالعہ صفحات</th>
+                                <!-- Naya Column 2 -->
+                                <th class="px-3 py-2 font-bold tracking-wider text-center">ہدف (مضامین)</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">کل مضامین</th>
                             </tr>
                         </thead>
@@ -340,8 +344,12 @@
                     <td class="px-3 py-3 text-base text-gray-900 font-medium text-center">${index + 1}</td>
                     <td class="px-3 py-3 text-base text-gray-900 font-medium">${darja.display}</td>
                     <td class="px-3 py-3"><input type="number" id="${base}_tadad" name="${base}_tadad" data-target="${darja.target}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm tadad-input"></td>
+                    <!-- Naya Column 1 Input -->
+                    <td class="px-3 py-3"><input type="number" id="${base}_mutala_karne_wale" name="${base}_mutala_karne_wale" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
                     <td class="px-3 py-3"><input type="number" id="${base}_hadaf" name="${base}_hadaf" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm hadaf-input"></td>
                     <td class="px-3 py-3"><input type="number" id="${base}_safhat" name="${base}_safhat" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm safhat-input"></td>
+                    <!-- Naya Column 2 Input -->
+                    <td class="px-3 py-3"><input type="number" id="${base}_hadaf_mazameen" name="${base}_hadaf_mazameen" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
                     <td class="px-3 py-3"><input type="number" id="${base}_mazameen" name="${base}_mazameen" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm mazameen-input"></td>
                 `;
             });
