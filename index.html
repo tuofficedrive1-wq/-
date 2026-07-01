@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ماہانہ مطالعہ اور تحریری کارکردگی</title>
-    <!-- Tailwind CSS CDN for responsiveness and modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* --- Jameel Noori Nastaliq Font Loading (Web-Compatible) --- */
@@ -23,13 +22,13 @@
         }
         .rtl-text { direction: rtl; }
         
-        /* Loading overlay styling - Updated for vertical alignment */
+        /* Loading overlay styling */
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(255, 255, 255, 0.95);
             display: flex;
-            flex-direction: column; /* Stack elements vertically */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -91,10 +90,8 @@
             </p>
         </header>
 
-        <!-- Form Start -->
         <form id="submissionForm" class="space-y-8">
 
-            <!-- General Information Section -->
             <section class="p-4 rounded-xl shadow-lg border border-blue-100 bg-blue-50/50">
                 <h2 class="text-xl font-bold text-gray-700 mb-4 border-r-4 pr-2 border-green-600">بنیادی معلومات</h2>
                 
@@ -140,7 +137,7 @@
                     </div>
 
                     <div>
-                        <label for="totalHadaf" class="block font-medium text-gray-700 mb-1">مجموعی ہدف:</label>
+                        <label for="totalHadaf" class="block font-medium text-gray-700 mb-1">مجموعی ہدف (صفحات):</label>
                         <input type="number" id="totalHadaf" name="totalHadaf" required min="0" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm" readonly>
                     </div>
 
@@ -161,7 +158,6 @@
                 </div>
             </section>
 
-            <!-- Performance Table Section -->
             <section class="performance-table p-4 rounded-xl shadow-lg border border-green-100 bg-green-50/50">
                 <h2 class="text-xl font-bold text-gray-700 mb-4 border-r-4 pr-2 border-blue-600">درجہ وائز کارکردگی کی تفصیلات</h2>
                 
@@ -172,18 +168,15 @@
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">نمبر</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">درجہ</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">تعداد</th>
-                                <!-- Naya Column 1 -->
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">مطالعہ کرنے والے طلبہ</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">ہدف (صفحات)</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">مطالعہ صفحات</th>
-                                <!-- Naya Column 2 -->
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">ہدف (مضامین)</th>
                                 <th class="px-3 py-2 font-bold tracking-wider text-center">کل مضامین</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="performanceTableBody">
-                            <!-- JS se rows ayengi -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </section>
@@ -199,22 +192,18 @@
         </form>
     </div>
 
-    <!-- Loading Overlay with Book Logo and Durood-e-Pak -->
     <div id="loadingOverlay" class="loading-overlay">
-        <!-- Book Logo (SVG) -->
         <div class="mb-4 text-blue-600">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
         </div>
         
-        <!-- Spinning Loader -->
         <svg class="animate-spin h-10 w-10 text-blue-600 mb-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
 
-        <!-- Durood-e-Pak Text -->
         <div class="text-center">
             <p class="text-blue-800 font-bold text-2xl mb-2" style="line-height: 1.6;">
                 صَلُّوا عَلَى الحَبِيب !
@@ -230,18 +219,17 @@
         
         let dataJamia = []; 
 
-        // Darjaat ke makhsoos target aur name
         const darjaat = [
-            { display: 'سال اول', nameBase: 'saalawwal', target: 150 }, 
-            { display: 'سال دوم', nameBase: 'saaldom', target: 150 }, 
-            { display: 'اولیٰ', nameBase: 'oola', target: 450 }, 
-            { display: 'ثانیہ', nameBase: 'saniya', target: 450 }, 
-            { display: 'ثالثہ', nameBase: 'salisa', target: 600 }, 
-            { display: 'رابعہ', nameBase: 'rabia', target: 600 }, 
-            { display: 'خامسہ', nameBase: 'khamisa', target: 750 }, 
-            { display: 'سادسہ', nameBase: 'sadisa', target: 750 }, 
-            { display: 'سابعہ', nameBase: 'sabia', target: 900 }, 
-            { display: 'دورہ حدیث', nameBase: 'dorahadees', target: 900 }
+            { display: 'سال اول', nameBase: 'saalawwal' }, 
+            { display: 'سال دوم', nameBase: 'saaldom' }, 
+            { display: 'اولیٰ', nameBase: 'oola' }, 
+            { display: 'ثانية', nameBase: 'saniya' }, 
+            { display: 'ثالثه', nameBase: 'salisa' }, 
+            { display: 'رابعة', nameBase: 'rabia' }, 
+            { display: 'خامسة', nameBase: 'khamisa' }, 
+            { display: 'سادسة', nameBase: 'sadisa' }, 
+            { display: 'سابعة', nameBase: 'sabia' }, 
+            { display: 'دورہ حدیث', nameBase: 'dorahadees' }
         ];
 
         const tableBody = document.getElementById('performanceTableBody');
@@ -258,12 +246,12 @@
             let tStudents = 0, tHadaf = 0, tSafhat = 0, tMazameen = 0;
             
             document.querySelectorAll('.tadad-input').forEach(i => tStudents += (parseInt(i.value) || 0));
-            document.querySelectorAll('.hadaf-input').forEach(i => tHadaf += (parseInt(i.value) || 0));
+            document.querySelectorAll('.safhat-hadaf-input').forEach(i => tHadaf += (parseInt(i.value) || 0));
             document.querySelectorAll('.safhat-input').forEach(i => tSafhat += (parseInt(i.value) || 0));
             document.querySelectorAll('.mazameen-input').forEach(i => tMazameen += (parseInt(i.value) || 0));
             
             totalStudentsInput.value = tStudents;
-            totalHadafInput.value = tHadaf;
+            totalHadafInput.value = tHadaf; 
             totalStudiedPagesInput.value = tSafhat;
             totalMazameenInput.value = tMazameen;
         }
@@ -271,13 +259,50 @@
         function handleTadadChange(event) {
             const tadadInput = event.target;
             const row = tadadInput.closest('tr');
-            const hadafInput = row.querySelector('.hadaf-input');
             
-            const classTarget = parseInt(tadadInput.getAttribute('data-target')) || 0;
+            const safhatInput = row.querySelector('.safhat-hadaf-input');
+            const mazameenInput = row.querySelector('.mazameen-hadaf-input');
+            
+            const safhatTarget = parseInt(tadadInput.getAttribute('data-target-safhat')) || 0;
+            const mazameenTarget = parseInt(tadadInput.getAttribute('data-target-mazameen')) || 0;
             const studentCount = parseInt(tadadInput.value) || 0;
             
-            hadafInput.value = studentCount * classTarget;
+            // Agar students entered hain toh multiply karein, warna base target dikhayein
+            safhatInput.value = studentCount > 0 ? (studentCount * safhatTarget) : safhatTarget;
+            mazameenInput.value = studentCount > 0 ? (studentCount * mazameenTarget) : mazameenTarget;
             
+            updateAllTotals();
+        }
+
+        // TARGETS KO GLOBALLY POPULATE KARNE KA FUNCTION (BINA JAMIA FILTER KE)
+        function populateGlobalTargets() {
+            darjaat.forEach(darja => {
+                const base = darja.nameBase;
+                const darjaName = darja.display;
+                
+                // Pure sheet data mein se is darja ki pehli row uthana (Kyunki targets global hain)
+                const rowData = dataJamia.find(r => r.darja === darjaName);
+
+                const safhatInput = document.getElementById(`${base}_hadaf`);
+                const mazameenInput = document.getElementById(`${base}_hadaf_mazameen`);
+                const tadadInput = document.getElementById(`${base}_tadad`);
+
+                let safhatTarget = 0;
+                let mazameenTarget = 0;
+
+                if (rowData) {
+                    safhatTarget = rowData.hadaf_safhat;
+                    mazameenTarget = rowData.hadaf_mazameen;
+                }
+
+                // Attributes set karna calculation ke liye
+                tadadInput.setAttribute('data-target-safhat', safhatTarget);
+                tadadInput.setAttribute('data-target-mazameen', mazameenTarget);
+
+                // Inputs mein default global values set karna
+                safhatInput.value = safhatTarget;
+                mazameenInput.value = mazameenTarget;
+            });
             updateAllTotals();
         }
 
@@ -286,9 +311,21 @@
                 jameyaNameInput.placeholder = "Jamia Data load ho raha hai...";
                 jameyaNameInput.disabled = true;
                 const response = await fetch(SCRIPT_URL);
-                dataJamia = await response.json();
+                const rawData = await response.json();
+                
+                dataJamia = rawData.map(item => ({
+                    jamia: item.jamia || item['جامعہ'] || item.Jamia || '',
+                    region: item.region || item['ریجن'] || item.Region || '',
+                    darja: item.darja || item['درجہ'] || item.Darja || '',
+                    hadaf_safhat: parseInt(item.hadaf_safhat || item['ہدف (صفحات)'] || 0),
+                    hadaf_mazameen: parseInt(item.hadaf_mazameen || item['ہدف (مضامین)'] || 0)
+                }));
+
                 jameyaNameInput.placeholder = "نام لکھیں یا منتخب کریں";
                 jameyaNameInput.disabled = false;
+
+                // Data load hote hi targets globally apply ho jayenge
+                populateGlobalTargets();
             } catch (error) {
                 console.error("Error fetching Jamia data:", error);
                 jameyaNameInput.placeholder = "Data load nahi ho saka.";
@@ -299,11 +336,20 @@
             const selectedRegion = rijanSelect.value;
             const inputText = jameyaNameInput.value.toLowerCase().trim();
             if (!selectedRegion && !inputText) { jamiaSuggestions.classList.add('hidden'); return; }
-            const filtered = dataJamia.filter(item => {
+            
+            const uniqueJamias = new Set();
+            const filtered = [];
+
+            dataJamia.forEach(item => {
                 const regionMatch = !selectedRegion || item.region === selectedRegion;
-                const inputMatch = item.jamia.toLowerCase().includes(inputText);
-                return regionMatch && inputMatch;
+                const inputMatch = item.jamia && item.jamia.toLowerCase().includes(inputText);
+                
+                if (regionMatch && inputMatch && !uniqueJamias.has(item.jamia)) {
+                    uniqueJamias.add(item.jamia);
+                    filtered.push(item);
+                }
             });
+
             renderSuggestions(filtered);
         }
 
@@ -334,8 +380,8 @@
         jameyaNameInput.addEventListener('input', filterAndShowSuggestions);
         jameyaNameInput.addEventListener('focus', filterAndShowSuggestions);
         
-        window.onload = () => {
-            fetchJamiaData();
+        window.onload = async () => {
+            // 1. Pehle table rows generate karein
             darjaat.forEach((darja, index) => {
                 const row = tableBody.insertRow();
                 row.className = 'hover:bg-gray-50';
@@ -343,19 +389,20 @@
                 row.innerHTML = `
                     <td class="px-3 py-3 text-base text-gray-900 font-medium text-center">${index + 1}</td>
                     <td class="px-3 py-3 text-base text-gray-900 font-medium">${darja.display}</td>
-                    <td class="px-3 py-3"><input type="number" id="${base}_tadad" name="${base}_tadad" data-target="${darja.target}" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm tadad-input"></td>
-                    <!-- Naya Column 1 Input -->
+                    <td class="px-3 py-3"><input type="number" id="${base}_tadad" name="${base}_tadad" data-target-safhat="0" data-target-mazameen="0" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm tadad-input"></td>
                     <td class="px-3 py-3"><input type="number" id="${base}_mutala_karne_wale" name="${base}_mutala_karne_wale" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
-                    <td class="px-3 py-3"><input type="number" id="${base}_hadaf" name="${base}_hadaf" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm hadaf-input"></td>
+                    <td class="px-3 py-3"><input type="number" id="${base}_hadaf" name="${base}_hadaf" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm safhat-hadaf-input"></td>
                     <td class="px-3 py-3"><input type="number" id="${base}_safhat" name="${base}_safhat" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm safhat-input"></td>
-                    <!-- Naya Column 2 Input -->
-                    <td class="px-3 py-3"><input type="number" id="${base}_hadaf_mazameen" name="${base}_hadaf_mazameen" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm"></td>
+                    <td class="px-3 py-3"><input type="number" id="${base}_hadaf_mazameen" name="${base}_hadaf_mazameen" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm mazameen-hadaf-input"></td>
                     <td class="px-3 py-3"><input type="number" id="${base}_mazameen" name="${base}_mazameen" min="0" class="w-full text-center p-1 border border-gray-300 rounded focus:border-blue-500 shadow-sm mazameen-input"></td>
                 `;
             });
 
             document.querySelectorAll('.tadad-input').forEach(input => input.addEventListener('input', handleTadadChange));
-            document.querySelectorAll('.hadaf-input, .safhat-input, .mazameen-input').forEach(input => input.addEventListener('input', updateAllTotals));
+            document.querySelectorAll('.safhat-hadaf-input, .mazameen-hadaf-input, .safhat-input, .mazameen-input').forEach(input => input.addEventListener('input', updateAllTotals));
+
+            // 2. Rows banne ke baad sheet se data fetch karein aur global targets bharein
+            await fetchJamiaData();
         }
         
         const form = document.getElementById('submissionForm');
@@ -377,7 +424,7 @@
                     responseMessage.textContent = 'آپ کی رپورٹ مجلس ماہانہ مطالعہ اور تحریری کارکردگی کے پاس کامیابی کے ساتھ جمع ہو گئی ہے۔';
                     responseMessage.className = 'text-center mt-4 font-semibold text-green-600 block bg-green-100 p-3 rounded-lg shadow';
                     form.reset();
-                    updateAllTotals();
+                    populateGlobalTargets(); // Form reset hone par wapas default targets show karne ke liye
                 } else {
                     throw new Error(data.message);
                 }
