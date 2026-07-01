@@ -231,8 +231,9 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRiGxMXrtnawwmhfJ1ueQo8SiKgx6kBry8M682xqMrOIDILwF-4UYK2SGQWMQ0xD0s/exec'; 
-        
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzfKrI5OIgwBgOJKIMFGY8O5F3_IGYR8v6Kw0Ksk7nsZONeUuUpJIccYJ6yNUtjjoCG/exec'; 
+        // Note: New Deploy ke baad agar URL change ho, toh yahan update kar lijiye ga.
+
         let dataJamia = []; 
 
         const darjaat = [
@@ -283,21 +284,20 @@
             const mazameenTarget = parseInt(tadadInput.getAttribute('data-target-mazameen')) || 0;
             const studentCount = parseInt(tadadInput.value) || 0;
             
-            // Agar students entered hain toh multiply karein, warna base target dikhayein
+            // Agar class ki tadad dali gayi hai, toh hadaf ko multiply karein
             safhatInput.value = studentCount > 0 ? (studentCount * safhatTarget) : safhatTarget;
             mazameenInput.value = studentCount > 0 ? (studentCount * mazameenTarget) : mazameenTarget;
             
             updateAllTotals();
         }
 
-        // --- GLOBAL TARGET POPULATION FUNCTION ---
-        // Yeh function bina kisi Jamia filter ke, sirf Darja (Class) ke mutabiq targets set karega
+        // --- GLOBAL TARGETS POPULATION ---
         function populateGlobalTargets() {
             darjaat.forEach(darja => {
                 const base = darja.nameBase;
                 const darjaName = darja.display;
                 
-                // Sheet ke poore data mein se is Darja (Class) ki pehli row uthana jahan targets likhe hain
+                // Darja (Class) ke hisaab se pehli matching row nikalna
                 const rowData = dataJamia.find(r => r.darja === darjaName);
 
                 const safhatInput = document.getElementById(`${base}_hadaf`);
@@ -307,16 +307,17 @@
                 let safhatTarget = 0;
                 let mazameenTarget = 0;
 
+                // Naye doGet API data ke mutabiq keys fetch karna
                 if (rowData) {
                     safhatTarget = rowData.hadaf_safhat || 0;
                     mazameenTarget = rowData.hadaf_mazameen || 0;
                 }
 
-                // Attributes set karna calculation ke liye (Tadad change hone par multiply karne ke liye)
+                // Attributes set karna
                 tadadInput.setAttribute('data-target-safhat', safhatTarget);
                 tadadInput.setAttribute('data-target-mazameen', mazameenTarget);
 
-                // Inputs mein default global values set karna
+                // Input fields mein value set karna
                 const studentCount = parseInt(tadadInput.value) || 0;
                 safhatInput.value = studentCount > 0 ? (studentCount * safhatTarget) : safhatTarget;
                 mazameenInput.value = studentCount > 0 ? (studentCount * mazameenTarget) : mazameenTarget;
@@ -331,18 +332,13 @@
                 const response = await fetch(SCRIPT_URL);
                 const rawData = await response.json();
                 
-                dataJamia = rawData.map(item => ({
-                    jamia: item.jamia || item['جامعہ'] || item.Jamia || '',
-                    region: item.region || item['ریجن'] || item.Region || '',
-                    darja: item.darja || item['درجہ'] || item.Darja || '',
-                    hadaf_safhat: parseInt(item.hadaf_safhat || item['ہدف (صفحات)'] || 0),
-                    hadaf_mazameen: parseInt(item.hadaf_mazameen || item['ہدف (مضامین)'] || 0)
-                }));
+                // Ab data seedha aayega kyunki humne backend par theek kar diya hai
+                dataJamia = rawData; 
 
                 jameyaNameInput.placeholder = "نام لکھیں یا منتخب کریں";
                 jameyaNameInput.disabled = false;
 
-                // Data load hote hi targets globally apply ho jayenge aur fixed rahenge
+                // Page load hote hi sare darjaat ke targets form mein set ho jayenge
                 populateGlobalTargets();
             } catch (error) {
                 console.error("Error fetching Jamia data:", error);
@@ -440,7 +436,7 @@
                     responseMessage.textContent = 'آپ کی رپورٹ مجلس ماہانہ مطالعہ اور تحریری کارکردگی کے پاس کامیابی کے ساتھ جمع ہو گئی ہے۔';
                     responseMessage.className = 'text-center mt-4 font-semibold text-green-600 block bg-green-100 p-3 rounded-lg shadow';
                     form.reset();
-                    populateGlobalTargets(); // Form reset hone par dobara sheet se default targets load karne ke liye
+                    populateGlobalTargets(); // Submit hone par dobara targets wapas le aye
                 } else {
                     throw new Error(data.message);
                 }
